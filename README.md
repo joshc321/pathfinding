@@ -39,4 +39,4 @@ To generate maze
 
 ## Maze Generation Algorithms implemented
 * Randomized Prim
-* Randomized Depth First\
+* Randomized Depth First
