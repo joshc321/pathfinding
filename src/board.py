@@ -31,7 +31,7 @@ class Board:
         if self._border:
             self._board[self._border_size:-self._border_size, self._border_size: -self._border_size] = val
         else:
-            self._board[0:-1, 0: -1] = val
+            self._board.fill(val)
 
     def reset(self) -> None:
         self.board_setup()

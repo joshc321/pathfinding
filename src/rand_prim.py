@@ -1,10 +1,10 @@
-from collections import deque
-import numpy, random
+import random
 from board import Board, BoardOptions
+from settings import settings
 
 class RandomPrim:
     
-    def __init__(self, board: Board, visual = None, multiplier = 10) -> None:
+    def __init__(self, board: Board, visual = None, multiplier = settings['multiplier']) -> None:
         self._board = board
         self.walls = [] # set() #deque()
         self._board.fill(BoardOptions().wall)
@@ -76,7 +76,7 @@ class RandomPrim:
         running until it has no more valid walls
         '''
         start_cell = (random.randint(1, self._board.size()[0]-2), 0)
-        self._board[start_cell] = 0
+        self._board[start_cell] = BoardOptions().path
         self.add_neighboring_walls(*start_cell)
 
         count = 0
@@ -85,9 +85,11 @@ class RandomPrim:
             rand_wall = self.walls.pop(random.randrange(len(self.walls)))
             if self.num_visited(*rand_wall) == 1:
                 if unvisited_cell := self.passage(*rand_wall):
-                    self._board[rand_wall] = 0
-                    self._board[unvisited_cell] = 0
+                    self._board[rand_wall] = BoardOptions().path
+                    self._board[unvisited_cell] = BoardOptions().path
+    
                     if count % self.multiplier == 0 and self.visual != None:
+                        self.visual._handle_events()
                         self.visual._draw_frame()
                         count = 0
                     count += 1

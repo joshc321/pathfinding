@@ -24,6 +24,7 @@ from depth_first_search import DFS
 from breadth_first_search import BFS
 from rand_prim import RandomPrim
 from randomized_depth_first import RandomDepthFirst
+from settings import settings
 
 _INITIAL_WIDTH, _INITIAL_HEIGHT = 420, 470
 
@@ -41,8 +42,8 @@ COLORS = {BD.path: _PATH_COLOR, BD.wall: _WALL_COLOR, BD.route: _ROUTE_COLOR, BD
 _FIELD_HEIGHT_PERCENT = 1
 _FIELD_WIDTH_PERCENT = 1
 
-_ROWS = 100
-_COLS = 100
+_ROWS = settings['board']['rows']
+_COLS = settings['board']['cols']
 
 
 class Visualizer:
@@ -62,6 +63,7 @@ class Visualizer:
             self._redraw_game_window()
             while self._running:
                 self._handle_events()
+                self._handle_keys()
                 self._draw_frame()
 
         finally:
@@ -73,6 +75,8 @@ class Visualizer:
     def _handle_events(self) -> None:
         for event in pygame.event.get():
             self._handle_event(event)
+    
+    def _handle_keys(self) -> None:
         self._handle_keys()
     
     def _handle_event(self, event) -> None:

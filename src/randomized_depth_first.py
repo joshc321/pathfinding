@@ -1,12 +1,13 @@
 #randomized depth first maze generation
 
 from collections import deque
-import numpy, random
+import random
 from board import Board, BoardOptions
+from settings import settings
 
 class RandomDepthFirst:
     
-    def __init__(self, board: Board, visual = None, multiplier = 10) -> None:
+    def __init__(self, board: Board, visual = None, multiplier = settings['multiplier']) -> None:
         self._board = board
         self.stack = deque()
         self._board.fill(BoardOptions().wall)
@@ -65,15 +66,17 @@ class RandomDepthFirst:
         running until it has no more valid walls
         '''
         start_cell = (random.randint(1, self._board.size()[0]-2), 0)
-        self._board[start_cell] = 0
+        self._board[start_cell] = BoardOptions().path
         self.stack.append(start_cell)
         count = 0
         while self.stack:
             cell = self.stack.pop()
             if unvisited_cell := self.get_random_neighbor(*cell):
                 self.stack.append(cell)
-                self._board[unvisited_cell] = 0
+                self._board[unvisited_cell] = BoardOptions().path
+
                 if count % self.multiplier == 0 and self.visual != None:
+                    self.visual._handle_events()
                     self.visual._draw_frame()
                     count = 0
                 count += 1
