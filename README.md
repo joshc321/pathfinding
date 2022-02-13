@@ -1,24 +1,24 @@
 # pathfinding
-##Pathfinding and maze generation visualization
+## Pathfinding and maze generation visualization
 
-##How to use
+## How to use
 
-###Download:
+### Download:
 ```bash
 git clone https://github.com/joshc321/pathfinding
 ```
 
-###Install Required Libraries:
+### Install Required Libraries:
 ```bash
 pipenv install
 ```
 
-###Initiate pipenv shell
+### Initiate pipenv shell
 ```bash
 pipenv shell
 ```
 
-###Run the visualization
+### Run the visualization
 ```bash
 python visualizer.py
 ```
@@ -32,11 +32,11 @@ To generate maze
 * Click and drage mouse on screen to create walls
 * Click 'C' button to clear the board
 
-##Pathfinding Algorithms implemented
+## Pathfinding Algorithms implemented
 * Astar
 * Depth First Search
 * Breadth First Search
 
-##Maze Generation Algorithms implemented
+## Maze Generation Algorithms implemented
 * Randomized Prim
 * Randomized Depth First\
