@@ -1,9 +1,7 @@
 from collections import deque
 import numpy
-from board import Board, BoardOptions
-
-class PathNotFound(Exception):
-    pass
+from .board import Board, BoardOptions
+from .errors import PathNotFound
 
 class DFS: 
 

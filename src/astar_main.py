@@ -1,10 +1,7 @@
 from queue import PriorityQueue
 from collections import defaultdict
-
-from board import Board, BoardOptions
-
-class PathNotFound(Exception):
-    pass
+from .board import Board, BoardOptions
+from .errors import PathNotFound
 
 class Astar: 
 

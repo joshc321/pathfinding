@@ -14,17 +14,18 @@ maze generation
 pathfinding
 ---------------------------------------------
 '''
-import sys
-sys.path.insert(0, './src')
+# import sys
+# sys.path.insert(0, './src')
 
 import pygame
-from board import Board, BoardOptions
-from astar_main import Astar, PathNotFound
-from depth_first_search import DFS
-from breadth_first_search import BFS
-from rand_prim import RandomPrim
-from randomized_depth_first import RandomDepthFirst
-from settings import settings
+from src.board import Board, BoardOptions
+from src.astar_main import Astar
+from src.depth_first_search import DFS
+from src.breadth_first_search import BFS
+from src.rand_prim import RandomPrim
+from src.randomized_depth_first import RandomDepthFirst
+from src.settings import settings
+from src.errors import PathNotFound
 
 _INITIAL_WIDTH, _INITIAL_HEIGHT = 420, 470
 
@@ -44,6 +45,7 @@ _FIELD_WIDTH_PERCENT = 1
 
 _ROWS = settings['board']['rows']
 _COLS = settings['board']['cols']
+
 
 
 class Visualizer:
@@ -142,7 +144,10 @@ class Visualizer:
         self._board.replace(BD.route, BD.path)
         self._board.replace(BD.start_end, BD.path)
         start, end = self._get_start_end()
-        DFS(self._board, start, end).dfs()
+        try:
+            DFS(self._board, start, end).dfs()
+        except PathNotFound:
+            self._path_not_found()
     
     def _run_bfs(self) -> None:
         '''
@@ -153,7 +158,10 @@ class Visualizer:
         self._board.replace(BD.route, BD.path)
         self._board.replace(BD.start_end, BD.path)
         start, end = self._get_start_end()
-        BFS(self._board, start, end).bfs()
+        try:
+            BFS(self._board, start, end).bfs()
+        except PathNotFound:
+            self._path_not_found()
 
     def _path_not_found(self) -> None:
         self._surface.fill(_WARNING_COLOR)

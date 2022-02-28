@@ -1,6 +1,6 @@
 import random
-from board import Board, BoardOptions
-from settings import settings
+from .board import Board, BoardOptions
+from .settings import settings
 
 class RandomPrim:
     
