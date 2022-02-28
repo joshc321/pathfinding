@@ -1,3 +1,5 @@
+# .pathfinding/src/settings.py
+
 settings = {
     'board': {
         'rows': 50,

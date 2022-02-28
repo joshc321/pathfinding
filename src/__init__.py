@@ -1,3 +1,5 @@
+# .pathfinding/src/__init__.py
+
 from .board import Board, BoardOptions
 from .astar_main import Astar
 from .breadth_first_search import BFS

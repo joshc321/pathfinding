@@ -1,21 +1,5 @@
 # ./pathfinding/visualizer.py
 
-'''
----------------------------------------------
-2-9-22
-Setup the basis of Visualizer class, working
-board that has a variable size that updates 
-accordingly
----------------------------------------------
-2-11-22
-finished get_coordinate_at_pixel function
-added drawing funcionality
-maze generation
-pathfinding
----------------------------------------------
-'''
-# import sys
-# sys.path.insert(0, './src')
 
 import pygame
 from src.board import Board, BoardOptions

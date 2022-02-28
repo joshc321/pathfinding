@@ -1,3 +1,4 @@
+# .pathfinding/src/astar_main.py
 from queue import PriorityQueue
 from collections import defaultdict
 from .board import Board, BoardOptions

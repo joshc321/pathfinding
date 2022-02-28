@@ -1,4 +1,4 @@
-#errors.py
+# .pathfinding/src/errors.py
 
 class PathNotFound(Exception):
     '''No path found'''

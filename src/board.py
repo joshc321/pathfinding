@@ -1,6 +1,4 @@
-# ./pathfinding/board.py
-# Intial: 02-07-2022
-
+# .pathfinding/src/board.py
 
 import numpy
 from dataclasses import dataclass
