@@ -1,4 +1,4 @@
-# .pathfinding/src/settings.py
+# .pathfinding/settings.py
 
 settings = {
     'board': {

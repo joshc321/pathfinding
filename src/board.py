@@ -139,20 +139,3 @@ class BoardOptions:
     s_path: int = 5
 
     valid_paths = cycle([path, wall, w_path, s_path])
-
-if __name__ == '__main__':
-    b = Board(10,10)
-    print(b)
-    b[1,2] = 3
-    print(b)
-    print(b.col(3))
-    print(b.actual_size())
-    b(5,5)
-    print(b)
-    try:
-        Board(32.1, 4.2)
-    except AssertionError:
-        pass
-    print(next(BoardOptions.valid_paths))
-    print(next(BoardOptions.valid_paths))
-    print(next(BoardOptions.valid_paths))

@@ -2,11 +2,12 @@
 
 import random
 from .board import Board, BoardOptions
-from .settings import settings
+
+DEFAULT_MULT = 10
 
 class RandomPrim:
     
-    def __init__(self, board: Board, visual = None, multiplier = settings['multiplier']) -> None:
+    def __init__(self, board: Board, visual = None, multiplier = DEFAULT_MULT) -> None:
         self._board = board
         self.walls = [] # set() #deque()
         self._board.fill(BoardOptions().wall)
@@ -91,8 +92,7 @@ class RandomPrim:
                     self._board[unvisited_cell] = BoardOptions().path
     
                     if count % self.multiplier == 0 and self.visual != None:
-                        self.visual._handle_events()
-                        self.visual._draw_frame()
+                        self.visual()
                         count = 0
                     count += 1
                     self.add_neighboring_walls(*unvisited_cell)

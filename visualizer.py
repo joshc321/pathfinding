@@ -2,6 +2,7 @@
 
 import pygame
 from src import *
+from settings import settings
 
 _INITIAL_WIDTH, _INITIAL_HEIGHT = 420, 470
 
@@ -35,7 +36,7 @@ class Visualizer:
         self.is_pressed = False
         self._single_click = False
 
-        self._selected_path = next(BD.valid_paths)
+        self._selected_path = BD.wall
 
     def run(self) -> None:
         pygame.init()
@@ -46,8 +47,7 @@ class Visualizer:
             self._create_surface((_INITIAL_WIDTH, _INITIAL_HEIGHT))
             self._redraw_game_window()
             while self._running:
-                self._handle_events()
-                self._draw_frame()
+                self._visualizer()
 
         finally:
             pygame.quit()
@@ -94,15 +94,18 @@ class Visualizer:
             self._draw_wall()
         elif event.type == pygame.KEYDOWN:
             self._handle_key(event)
-        
+    
+    def _visualizer(self):
+        self._handle_events()
+        self._draw_frame()
     
     def _run_rdf(self) -> None:
         self._board.reset()
-        RandomDepthFirst(self._board, self).depth()
+        RandomDepthFirst(self._board, self._visualizer, multiplier=settings['multiplier']).depth()
 
     def _run_prim(self) -> None:
         self._board.reset()
-        RandomPrim(self._board, self).prims()
+        RandomPrim(self._board, self._visualizer, multiplier=settings['multiplier']).prims()
 
     def _run_astar(self) -> None:
         '''
