@@ -20,8 +20,8 @@ class Astar:
         while current in cameFrom:
             current = cameFrom[current]
             total_path.add(current)
-            self._board[current] = BoardOptions().route
-        self._board[self.start] = BoardOptions().start_end
+            self._board[current] = BoardOptions().route if self._board[current] == BoardOptions().path else int(self._board[current])
+
         return total_path
 
     def is_valid(self,row: int, col: int) -> bool:
@@ -73,7 +73,7 @@ class Astar:
                 return self.reconstruct_path(came_from, current)
             open_set_hash.remove(current)
             for neighbor in self.neighbors(*current):
-                tentative_Gscore = gScore[current] + 1
+                tentative_Gscore = gScore[current] + 1 + self._board[neighbor]
                 if tentative_Gscore < gScore[neighbor]:
                     came_from[neighbor] = current
                     gScore[neighbor] = tentative_Gscore

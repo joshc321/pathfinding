@@ -1,3 +1,6 @@
 #misc
 .DS_Store
 testing
+__pycache__/
+scr/__pycache__/
+*.pyc

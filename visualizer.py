@@ -1,15 +1,7 @@
 # ./pathfinding/visualizer.py
 
-
 import pygame
-from src.board import Board, BoardOptions
-from src.astar_main import Astar
-from src.depth_first_search import DFS
-from src.breadth_first_search import BFS
-from src.rand_prim import RandomPrim
-from src.randomized_depth_first import RandomDepthFirst
-from src.settings import settings
-from src.errors import PathNotFound
+from src import *
 
 _INITIAL_WIDTH, _INITIAL_HEIGHT = 420, 470
 
@@ -19,10 +11,14 @@ _PATH_COLOR = pygame.Color(0,0,0)
 _ROUTE_COLOR = pygame.Color(195, 111, 111)
 _START_END_COLOR = pygame.Color(55, 116, 144)
 _WARNING_COLOR = pygame.Color(136, 39, 39)
+_W_PATH_COLOR = pygame.Color(219, 193, 121)
+_S_PATH_COLOR = pygame.Color(117, 32, 32)
 
 BD = BoardOptions()
 
-COLORS = {BD.path: _PATH_COLOR, BD.wall: _WALL_COLOR, BD.route: _ROUTE_COLOR, BD.start_end: _START_END_COLOR}
+COLORS = {BD.path: _PATH_COLOR, BD.wall: _WALL_COLOR, BD.route: _ROUTE_COLOR, 
+          BD.start_end: _START_END_COLOR, BD.w_path: _W_PATH_COLOR, 
+          BD.s_path: _S_PATH_COLOR}
 
 _FIELD_HEIGHT_PERCENT = 1
 _FIELD_WIDTH_PERCENT = 1
@@ -39,6 +35,8 @@ class Visualizer:
         self.is_pressed = False
         self._single_click = False
 
+        self._selected_path = next(BD.valid_paths)
+
     def run(self) -> None:
         pygame.init()
         pygame.display.set_caption('Visualizer')
@@ -49,7 +47,6 @@ class Visualizer:
             self._redraw_game_window()
             while self._running:
                 self._handle_events()
-                self._handle_keys()
                 self._draw_frame()
 
         finally:
@@ -62,8 +59,29 @@ class Visualizer:
         for event in pygame.event.get():
             self._handle_event(event)
     
-    def _handle_keys(self) -> None:
-        self._handle_keys()
+    def _handle_key(self, event) -> None:
+        assert event.type == pygame.KEYDOWN, 'Visualizer._handle_key: event must be a KEYDOWN event'
+        mods = pygame.key.get_mods()
+
+        if event.key ==pygame.K_ESCAPE:
+            self._stop_game()
+        if event.key == pygame.K_1 and not (mods & pygame.KMOD_LSHIFT):
+            self._run_astar()
+        if event.key == pygame.K_2 and not (mods & pygame.KMOD_LSHIFT):
+            self._run_dfs()
+        if event.key == pygame.K_3 and not (mods & pygame.KMOD_LSHIFT):
+            self._run_bfs()
+        if event.key == pygame.K_1 and (mods & pygame.KMOD_LSHIFT):
+            self._run_prim()
+        if event.key == pygame.K_2 and (mods & pygame.KMOD_LSHIFT):
+            self._run_rdf()
+        if event.key == pygame.K_c:
+            self._board.reset()
+        if event.key == pygame.K_f:
+            self._board.fill(self._selected_path)
+        if event.key == pygame.K_t:
+            #testing block
+            self._selected_path = next(BD.valid_paths)
     
     def _handle_event(self, event) -> None:
         if event.type == pygame.QUIT:
@@ -74,28 +92,9 @@ class Visualizer:
             self.is_pressed = False
         elif event.type == pygame.MOUSEMOTION and self.is_pressed == True:   
             self._draw_wall()
+        elif event.type == pygame.KEYDOWN:
+            self._handle_key(event)
         
-
-    def _handle_keys(self) -> None:
-        keys = pygame.key.get_pressed()
-
-        if keys[pygame.K_ESCAPE]:
-            self._stop_game()
-        if keys[pygame.K_1] and not keys[pygame.K_LSHIFT]:
-            self._run_astar()
-        if keys[pygame.K_2] and not keys[pygame.K_LSHIFT]:
-            self._run_dfs()
-        if keys[pygame.K_3] and not keys[pygame.K_LSHIFT]:
-            self._run_bfs()
-        if keys[pygame.K_1] and keys[pygame.K_LSHIFT]:
-            self._run_prim()
-        if keys[pygame.K_2] and keys[pygame.K_LSHIFT]:
-            self._run_rdf()
-        if keys[pygame.K_c]:
-            self._board.reset()
-        if keys[pygame.K_t]:
-            #testing block
-            self._draw_frame()
     
     def _run_rdf(self) -> None:
         self._board.reset()
@@ -206,7 +205,7 @@ class Visualizer:
         pos = pygame.mouse.get_pos()
         coords = self._get_coordinates_at_pixel(pos)
         try:
-            self._board[coords] = BD.wall
+            self._board[coords] = self._selected_path
         except TypeError:
             pass
 

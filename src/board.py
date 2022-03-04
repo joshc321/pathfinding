@@ -2,6 +2,7 @@
 
 import numpy
 from dataclasses import dataclass
+from itertools import cycle
 
 class Board:
 
@@ -107,6 +108,7 @@ class Board:
            not self.is_valid_col(index[1]):
             raise TypeError(f'Board.__getitem___: illegal index {index}')
         if type(val) not in (int, float):
+            print(type(val), val)
             raise TypeError(f'Board.__setitem___: illegal value {val}')
         self._board[self._normalize(index)] = val
 
@@ -133,6 +135,10 @@ class BoardOptions:
     wall: int = 1
     route: int = 2
     start_end: int = 3
+    w_path: int = 4
+    s_path: int = 5
+
+    valid_paths = cycle([path, wall, w_path, s_path])
 
 if __name__ == '__main__':
     b = Board(10,10)
@@ -147,3 +153,6 @@ if __name__ == '__main__':
         Board(32.1, 4.2)
     except AssertionError:
         pass
+    print(next(BoardOptions.valid_paths))
+    print(next(BoardOptions.valid_paths))
+    print(next(BoardOptions.valid_paths))
